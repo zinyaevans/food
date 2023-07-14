@@ -1,5 +1,7 @@
 window.addEventListener('DOMContentLoaded', () => {
 
+    // Slider
+
     let tabs = document.querySelectorAll('.tabheader__item'),
           tabsContent = document.querySelectorAll('.tabcontent'),
           tabsParent = document.querySelector('.tabheader__items');
@@ -39,6 +41,8 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         }
     });
+
+    // Timer
 
     const deadline = '2023-08-07';
 
@@ -100,4 +104,52 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     setClock('.timer', deadline);
+
+    // Modal
+
+    const buttons = document.querySelectorAll('[data-modal]'),
+          modal = document.querySelector('.modal'),
+          modalClose = document.querySelector('[data-close]');
+
+    buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            modal.style.display = 'block';
+            // modal.classList.add('show');
+            // modal.classList.remove('hide');
+
+            // ИЛИ
+
+            // modal.classList.toggle('show');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    function closeModal() {
+        // modal.classList.add('hide');
+        // modal.classList.remove('show');
+
+        // ИЛИ
+
+        // modal.classList.toggle('show');
+        modal.style.display = 'none';
+        document.body.style.overflow = '';
+    }
+
+    modalClose.addEventListener('click', closeModal);
+
+    // закрывать по клику на esc (не работает)
+
+    document.addEventListener('keydown', (e) => {
+        if (e.code === 'Escape' && modal.classList.contains('show')) {
+            closeModal();
+        }
+    });
+
+    // закрывать по клику в пространство рядом с окном (не работает)
+
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            closeModal();
+        }
+    });
 });
