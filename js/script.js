@@ -3,8 +3,8 @@ window.addEventListener('DOMContentLoaded', () => {
     // Slider
 
     let tabs = document.querySelectorAll('.tabheader__item'),
-          tabsContent = document.querySelectorAll('.tabcontent'),
-          tabsParent = document.querySelector('.tabheader__items');
+        tabsContent = document.querySelectorAll('.tabcontent'),
+        tabsParent = document.querySelector('.tabheader__items');
 
     function hideTabContent() {
         tabsContent.forEach(item => {
@@ -57,19 +57,19 @@ window.addEventListener('DOMContentLoaded', () => {
             seconds = 0;
         } else {
             days = Math.floor(t / (1000 * 60 * 60 * 24)), // округление до ближайшего целого
-            hours = Math.floor((t / (1000 * 60 * 60)) % 24), // остаток от деления
-            minutes = Math.floor((t / 1000 / 60) % 60),
-            seconds = Math.floor((t / 1000) % 60);
-        }   
+                hours = Math.floor((t / (1000 * 60 * 60)) % 24), // остаток от деления
+                minutes = Math.floor((t / 1000 / 60) % 60),
+                seconds = Math.floor((t / 1000) % 60);
+        }
 
         return {
             'total': t,
-            'days' : days,
-            'hours' : hours,
-            'minutes' : minutes,
-            'seconds' : seconds 
+            'days': days,
+            'hours': hours,
+            'minutes': minutes,
+            'seconds': seconds
         };
-    } 
+    }
 
     function getZero(num) {
         if (num >= 0 && num < 10) {
@@ -81,11 +81,11 @@ window.addEventListener('DOMContentLoaded', () => {
 
     function setClock(selector, endtime) {
         const timer = document.querySelector(selector),
-              days = timer.querySelector('#days'),
-              hours = timer.querySelector('#hours'),
-              minutes = timer.querySelector('#minutes'),
-              seconds = timer.querySelector('#seconds'),
-              timeInterval = setInterval(updateClock, 1000);
+            days = timer.querySelector('#days'),
+            hours = timer.querySelector('#hours'),
+            minutes = timer.querySelector('#minutes'),
+            seconds = timer.querySelector('#seconds'),
+            timeInterval = setInterval(updateClock, 1000);
 
         updateClock();
 
@@ -108,28 +108,27 @@ window.addEventListener('DOMContentLoaded', () => {
     // Modal
 
     const buttons = document.querySelectorAll('[data-modal]'),
-          modal = document.querySelector('.modal'),
-          modalClose = document.querySelector('[data-close]');
+        modal = document.querySelector('.modal'),
+        modalClose = document.querySelector('[data-close]');
+
+    function openModal() {
+        modal.style.display = 'block';
+        // modal.classList.add('show');
+        // modal.classList.remove('hide');
+        // ИЛИ
+        // modal.classList.toggle('show');
+        document.body.style.overflow = 'hidden';
+        clearInterval(modalTimerId);
+    }
 
     buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            modal.style.display = 'block';
-            // modal.classList.add('show');
-            // modal.classList.remove('hide');
-
-            // ИЛИ
-
-            // modal.classList.toggle('show');
-            document.body.style.overflow = 'hidden';
-        });
+        btn.addEventListener('click', openModal);
     });
 
     function closeModal() {
         // modal.classList.add('hide');
         // modal.classList.remove('show');
-
         // ИЛИ
-
         // modal.classList.toggle('show');
         modal.style.display = 'none';
         document.body.style.overflow = '';
@@ -145,11 +144,22 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // закрывать по клику в пространство рядом с окном (не работает)
+    // закрывать по клику в пространство рядом с окном
 
     modal.addEventListener('click', (e) => {
         if (e.target === modal) {
             closeModal();
         }
     });
+
+    const modalTimerId = setTimeout(openModal, 3000);
+
+    function showModalByScroll() {
+        if (window.scrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
+            openModal();
+            window.removeEventListener('scroll', showModalByScroll);
+        }
+    }
+
+    window.addEventListener('scroll', showModalByScroll);
 });
