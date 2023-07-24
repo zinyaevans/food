@@ -136,10 +136,10 @@ window.addEventListener('DOMContentLoaded', () => {
 
     modalClose.addEventListener('click', closeModal);
 
-    // закрывать по клику на esc (не работает)
+    // закрывать по клику на esc 
 
     document.addEventListener('keydown', (e) => {
-        if (e.code === 'Escape' && modal.classList.contains('show')) {
+        if (e.code === 'Escape' && modal.style.display === 'block') {
             closeModal();
         }
     });
@@ -152,7 +152,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    const modalTimerId = setTimeout(openModal, 3000);
+    // const modalTimerId = setTimeout(openModal, 3000);
 
     function showModalByScroll() {
         if (window.scrollY + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
